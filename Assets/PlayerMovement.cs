@@ -23,6 +23,9 @@ public class ProtagMovement : MonoBehaviour
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
+
+        if (Mathf.Abs(moveX) > 0) moveY = 0;
+
         movement = new Vector2(moveX, moveY).normalized;
     }
 
