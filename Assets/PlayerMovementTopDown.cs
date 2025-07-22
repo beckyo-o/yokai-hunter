@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProtagMovement : MonoBehaviour
+public class PlayerMovementTopDown : MonoBehaviour
 {
     public float MovementSpeed;
     public Rigidbody2D rb;
@@ -24,7 +24,6 @@ public class ProtagMovement : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        if (Mathf.Abs(moveX) > 0) moveY = 0;
 
         movement = new Vector2(moveX, moveY).normalized;
     }
