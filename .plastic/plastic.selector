@@ -1,0 +1,4 @@
+repository "Yokai Hunter 2025-07-19_06-18-18/Yokai Hunter@2475626704887@cloud"
+  path "/"
+    br "/main"
+    co "/main"
