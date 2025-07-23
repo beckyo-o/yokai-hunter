@@ -48,7 +48,6 @@ public class PlayerAttack : MonoBehaviour
 
             m_timeSinceAttack = 0.0f;
         }
-        Debug.Log(m_attack);
     }
 
     void OnCollisionStay2D(Collision2D col)

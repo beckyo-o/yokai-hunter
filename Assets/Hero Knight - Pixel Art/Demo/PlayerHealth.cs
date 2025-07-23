@@ -19,20 +19,20 @@ public class PlayerHealth : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Yokai"))
-        {
-            if (playerHealth > 0)
-            {
-                Debug.Log("Player collided with Yokai!");
-                playerHealth -= 10;
-                m_animator.SetTrigger("Hurt");
-            }
-            if (playerHealth <= 0)
-            {
-                m_animator.SetTrigger("Death");
-                Debug.Log("Player is dead!");
-            }
-        }
+        //     if (col.gameObject.CompareTag("Yokai"))
+        //     {
+        //         if (playerHealth > 0)
+        //         {
+        //             Debug.Log("Player collided with Yokai!");
+        //             playerHealth -= 10;
+        //             m_animator.SetTrigger("Hurt");
+        //         }
+        //         if (playerHealth <= 0)
+        //         {
+        //             m_animator.SetTrigger("Death");
+        //             Debug.Log("Player is dead!");
+        //         }
+        //     }
     }
 }
 
