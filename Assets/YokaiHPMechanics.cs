@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class YokaiHPMechanics : MonoBehaviour
@@ -7,15 +6,17 @@ public class YokaiHPMechanics : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
 
-    public Transform player; // Assign this in the Inspector
+    public Transform player;
     public float moveSpeed = 3f;
     public float stopDistance = 1.2f;
     public float chargeSpeed = 8f;
-    public float chargeDelay = 0.5f;
+    public float chargeDelay = 3f;
+    public float chargeDuration = 3f;
+    public float chargeCooldown = 3f;
     public int damageAmount = 10;
 
     private bool isCharging = false;
-    private bool canCharge = true;
+    private bool isOnCooldown = false;
     private Animator m_animator;
 
     void Start()
@@ -26,74 +27,69 @@ public class YokaiHPMechanics : MonoBehaviour
 
     void Update()
     {
-        if (player != null && canCharge)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (player == null || isCharging || isOnCooldown) return;
 
-            if (!isCharging)
-            {
-                // Move towards player until within stopDistance
-                if (distanceToPlayer > stopDistance)
-                {
-                    Vector3 direction = (player.position - transform.position).normalized;
-                    Vector3 horizontalDirection = new Vector3(direction.x, 0f, 0f);
-                    transform.position += horizontalDirection * moveSpeed * Time.deltaTime;
-                }
-                else
-                {
-                    // Start charging after a short delay
-                    StartCoroutine(ChargeAtPlayer());
-                }
-            }
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance > stopDistance)
+        {
+            Vector3 dir = (player.position - transform.position).normalized;
+            Vector3 move = new Vector3(dir.x, 0f, 0f);
+            transform.position += move * moveSpeed * Time.deltaTime;
         }
-        Debug.Log(isCharging);
+        else
+        {
+            StartCoroutine(Charge());
+        }
     }
 
-    IEnumerator ChargeAtPlayer()
+    IEnumerator Charge()
     {
         isCharging = true;
         yield return new WaitForSeconds(chargeDelay);
 
-        // Charge towards player
         Vector3 direction = (player.position - transform.position).normalized;
-        float chargeTime = 0.3f; // Duration of charge
-        float elapsed = 0f;
+        float timer = 0f;
 
-        while (elapsed < chargeTime)
+        while (timer < chargeDuration)
         {
             transform.position += new Vector3(direction.x, 0f, 0f) * chargeSpeed * Time.deltaTime;
-            elapsed += Time.deltaTime;
+            timer += Time.deltaTime;
             yield return null;
         }
 
         isCharging = false;
-        canCharge = false;
-        yield return new WaitForSeconds(0.5f);
-        canCharge = true;
+        isOnCooldown = true;
+        yield return new WaitForSeconds(chargeCooldown);
+        isOnCooldown = false;
     }
 
     void OnCollisionStay2D(Collision2D col)
     {
-        if (isCharging && col.gameObject.CompareTag("Player"))
+        if (!isCharging) return;
+
+        if (col.gameObject.CompareTag("Player"))
         {
-            PlayerHealth playerHealth = col.gameObject.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
+            PlayerHealth ph = col.gameObject.GetComponent<PlayerHealth>();
+            if (ph != null)
             {
-                playerHealth.playerHealth -= damageAmount;
-                Animator playerAnimator = col.gameObject.GetComponent<Animator>();
-                if (playerAnimator != null)
-                    playerAnimator.SetTrigger("Hurt");
+                ph.playerHealth -= damageAmount;
+                Animator pa = col.gameObject.GetComponent<Animator>();
+                if (pa != null)
+                    pa.SetTrigger("Hurt");
             }
+
             isCharging = false;
-            canCharge = false;
-            StartCoroutine(ChargeCooldown());
+            isOnCooldown = true;
+            StopAllCoroutines();
+            StartCoroutine(CooldownOnly());
         }
     }
 
-    IEnumerator ChargeCooldown()
+    IEnumerator CooldownOnly()
     {
-        yield return new WaitForSeconds(0.5f);
-        canCharge = true;
+        yield return new WaitForSeconds(chargeCooldown);
+        isOnCooldown = false;
     }
 
     public void TakeDamage(int damage)
