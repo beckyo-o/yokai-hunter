@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class YokaiHPMechanics : MonoBehaviour
 {
-    public int maxHealth = 100;
+    public int maxHealth = 30;
     public int currentHealth;
 
     public Transform player;
