@@ -432,8 +432,8 @@ MonoBehaviour:
   Enemy: {fileID: 1672195079}
   Player: {fileID: 1708771629}
   _playerXPosition: 0
-  maxNumberOfEnemies: 5
-  maxTotalNumberOfEnemies: 10
+  maxNumberOfEnemies: 3
+  maxTotalNumberOfEnemies: 7
   numberOfEnemies: 0
   totalNumberOfEnemies: 0
   _spawnEnemies: 1
@@ -1430,13 +1430,14 @@ GameObject:
   - component: {fileID: 1672195087}
   - component: {fileID: 1672195086}
   - component: {fileID: 1672195085}
+  - component: {fileID: 1672195088}
   m_Layer: 0
   m_Name: EnemyTest
   m_TagString: Yokai
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!70 &1672195080
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1606,13 +1607,13 @@ MonoBehaviour:
     interval: 0.5
     sensitivity: 10
     maximumInterval: 2
-    visualizeSensitivity: 0
+    visualizeSensitivity: 1
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
   rotationSpeed: 360
-  slowdownDistance: 1.2
+  slowdownDistance: 2.6
   pickNextWaypointDist: 0.6
-  endReachedDistance: 1
+  endReachedDistance: 2
   alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
@@ -1645,6 +1646,33 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!50 &1672195088
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672195079}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 2
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1708771629 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6323719953710832613, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
@@ -1814,6 +1842,18 @@ PrefabInstance:
     - target: {fileID: 8413529789942519730, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942925490989933264, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942925490989933264, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942925490989933264, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: m_rollForce
