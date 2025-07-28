@@ -10,7 +10,7 @@ public class PlayerAttack : MonoBehaviour
     private float m_attackDuration = 8.0f / 14.0f;
     private Animator m_animator;
     private float m_timeSinceAttack = 0.0f;
-    private bool m_attackHasHit = false; // Add this flag
+    private bool m_attackHasHit = false;
 
     void Start()
     {
@@ -35,6 +35,8 @@ public class PlayerAttack : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f)
         {
+            HeroKnight heroKnight = GetComponent<HeroKnight>();
+
             m_currentAttack++;
 
             if (m_currentAttack > 3)
@@ -48,9 +50,10 @@ public class PlayerAttack : MonoBehaviour
 
             m_timeSinceAttack = 0.0f;
         }
+
     }
 
-    void OnCollisionStay2D(Collision2D col)
+    void OnTriggerStay2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Yokai") && m_attack && !m_attackHasHit)
         {
@@ -59,7 +62,7 @@ public class PlayerAttack : MonoBehaviour
             if (yokaiHP != null)
             {
                 yokaiHP.TakeDamage(10);
-                m_attackHasHit = true; // Only allow one hit per attack
+                m_attackHasHit = true;
             }
         }
     }

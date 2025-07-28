@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/2D Top Down Fighting.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Hero Knight - Pixel Art/Demo/2D Platformer Fighting Day 1.unity
+    path: Assets/Hero Knight - Pixel Art/2D Platformer Fighting Day 1.unity
     guid: f9932cc447c2c0b489f7fe04352db427
   - enabled: 1
     path: Assets/Scenes/Game Over.unity

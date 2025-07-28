@@ -18,7 +18,7 @@ public class HeroKnight : MonoBehaviour
     private Sensor_HeroKnight m_wallSensorL2;
     private bool m_isWallSliding = false;
     private bool m_grounded = false;
-    private int m_facingDirection = 1;
+    public int m_facingDirection = -1;
     private float m_delayToIdle = 0.0f;
 
     // Use this for initialization
@@ -56,13 +56,15 @@ public class HeroKnight : MonoBehaviour
         // Swap direction of sprite depending on walk direction
         if (inputX > 0)
         {
-            GetComponent<SpriteRenderer>().flipX = false;
+            if (m_facingDirection == -1)
+                Flip();
             m_facingDirection = 1;
         }
 
         else if (inputX < 0)
         {
-            GetComponent<SpriteRenderer>().flipX = true;
+            if (m_facingDirection == 1)
+                Flip();
             m_facingDirection = -1;
         }
 
@@ -77,30 +79,8 @@ public class HeroKnight : MonoBehaviour
         m_isWallSliding = (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State());
         m_animator.SetBool("WallSlide", m_isWallSliding);
 
-        //Death
-        if (Input.GetKeyDown("e"))
-        {
-            m_animator.SetBool("noBlood", m_noBlood);
-            m_animator.SetTrigger("Death");
-        }
-
-        //Hurt
-        else if (Input.GetKeyDown("q"))
-            m_animator.SetTrigger("Hurt");
-
-        // Block
-        else if (Input.GetMouseButtonDown(1))
-        {
-            m_animator.SetTrigger("Block");
-            m_animator.SetBool("IdleBlock", true);
-        }
-
-        else if (Input.GetMouseButtonUp(1))
-            m_animator.SetBool("IdleBlock", false);
-
-
         //Jump
-        else if (Input.GetKeyDown("space") && m_grounded)
+        if (Input.GetKeyDown("space") && m_grounded)
         {
             m_animator.SetTrigger("Jump");
             m_grounded = false;
@@ -124,6 +104,14 @@ public class HeroKnight : MonoBehaviour
             m_delayToIdle -= Time.deltaTime;
             if (m_delayToIdle < 0)
                 m_animator.SetInteger("AnimState", 0);
+        }
+
+        
+        void Flip()
+        {
+            Vector3 currentScale = transform.localScale;
+            currentScale.x *= -1; 
+            transform.localScale = currentScale;
         }
     }
 

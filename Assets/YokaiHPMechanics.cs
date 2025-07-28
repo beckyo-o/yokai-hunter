@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class YokaiHPMechanics : MonoBehaviour
 {
-    public int maxHealth = 30;
+    private int maxHealth = 40;
     public int currentHealth;
 
     public Transform player;
     public float moveSpeed = 3f;
-    public float stopDistance = 1.2f;
-    public float chargeSpeed = 8f;
-    public float chargeDelay = 3f;
-    public float chargeDuration = 3f;
     public float chargeCooldown = 3f;
     public int damageAmount = 10;
+    private float stopDistance = 2f;
+    private float chargeSpeed = 4f;
+    private float chargeDelay = 3f;
+    private float chargeDuration = 0.5f;
 
     private bool isCharging = false;
     private bool isOnCooldown = false;
@@ -78,7 +78,6 @@ public class YokaiHPMechanics : MonoBehaviour
                 if (pa != null)
                     pa.SetTrigger("Hurt");
             }
-
             isCharging = false;
             isOnCooldown = true;
             StopAllCoroutines();
@@ -99,6 +98,11 @@ public class YokaiHPMechanics : MonoBehaviour
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
+            EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
+            if (enemySpawner != null)
+            {
+                enemySpawner.numberOfEnemies -= 1;
         }
     }
+}
 }

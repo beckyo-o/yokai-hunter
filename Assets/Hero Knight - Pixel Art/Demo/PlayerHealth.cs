@@ -9,6 +9,9 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;
     public int playerHealth;
     public Texture2D redTexture;
+
+    private bool canHeal = true;
+    private float healCD = 10f;
     void Start()
     {
         redTexture = MakeTex(1, 1, Color.red);
@@ -18,6 +21,17 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+        Heal();
+        if (!canHeal)
+        {
+            healCD -= Time.deltaTime;
+            if (healCD <= 0f)
+            {
+                canHeal = true;
+                healCD = 10f;
+            }
+        }
+
         if (playerHealth <= 0)
         {
             SceneManager.LoadScene("Game Over");
@@ -46,22 +60,20 @@ public class PlayerHealth : MonoBehaviour
         result.Apply();
         return result;
     }
-    void OnCollisionEnter2D(Collision2D col)
+    public void Heal()
     {
-        //     if (col.gameObject.CompareTag("Yokai"))
-        //     {
-        //         if (playerHealth > 0)
-        //         {
-        //             Debug.Log("Player collided with Yokai!");
-        //             playerHealth -= 10;
-        //             m_animator.SetTrigger("Hurt");
-        //         }
-        //         if (playerHealth <= 0)
-        //         {
-        //             m_animator.SetTrigger("Death");
-        //             Debug.Log("Player is dead!");
-        //         }
-        //     }
+        if (Input.GetKeyDown("q") && canHeal)
+        {
+            if (canHeal)
+            {
+                playerHealth += 10;
+                if (playerHealth > maxHealth)
+                {
+                    playerHealth = maxHealth;
+                }
+                canHeal = false;
+            }
+        }
     }
 }
 
